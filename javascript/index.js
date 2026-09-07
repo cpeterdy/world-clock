@@ -1,4 +1,14 @@
 function updateTime() {
+  let torontoElement = document.querySelector("#toronto");
+  let torontoDateElement = torontoElement.querySelector(".date");
+  let torontoTimeElement = torontoElement.querySelector(".time");
+  torontoDateElement.innerHTML = moment()
+    .tz("America/Toronto")
+    .format("MMMM Do, YYYY");
+  torontoTimeElement.innerHTML = moment()
+    .tz("America/Toronto")
+    .format("h:mm:ss [<small>]A[</small>]");
+
   let losAngelesElement = document.querySelector("#los-angeles");
   let losAngelesDateElement = losAngelesElement.querySelector(".date");
   let losAngelesTimeElement = losAngelesElement.querySelector(".time");
@@ -36,6 +46,7 @@ function updateCity(event) {
           </div>
           <div class="time">${cityTime.format("h:mm:ss [<small>]A[</small>]")}</div>
         </div>
+        <a href="/">All cities</a>
         `;
 }
 
@@ -44,3 +55,14 @@ setInterval(updateTime, 1000);
 
 let citiesSelectElement = document.querySelector("#city");
 citiesSelectElement.addEventListener("change", updateCity);
+
+function displayLocalTime() {
+  let localTimeZoneElement = document.querySelector("#local-time");
+  let localTimeZone = moment.tz.guess();
+  let localTime = moment().tz(localTimeZone).format("h:mm:ss A");
+  let localCity = localTimeZone.replace("_", " ").split("/")[1];
+  localTimeZoneElement.innerHTML = `Local Time: It is currently ${localTime} in ${localCity}`;
+}
+
+displayLocalTime();
+setInterval(displayLocalTime, 1000);
